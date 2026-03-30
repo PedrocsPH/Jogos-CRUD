@@ -1,55 +1,177 @@
-body{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #0b002c;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+* {
+  box-sizing: border-box;
 }
 
-.main-container{
-  position: relative;
-  top: 0;
-  width: 750px;
-  height: 450px;
-  border: 2px solid #211d9e;
-  border-radius: 8px 8px 8px;
-  background-color: transparent;
-  box-shadow: 0 0 20px #080039;
-  overflow: hidden;
-}
-
-.main-container .form-box{
-  position: absolute;
-  top: 0;
-  width: 50%;
+body, html {
+  margin: 0;
   height: 100%;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to top, #0d0d60 0%, #1f3eba 100%);
+  overflow: hidden;
+  color: white;
+}
+
+.background {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('') center center/cover no-repeat;
+  filter: brightness(0.6);
+  z-index: -1;
+}
+
+nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+  font-weight: 600;
+  font-size: 14px;
+  z-index: 10;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #aad4ff;
+}
+
+.search-bar {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  background: rgba(255 255 255 / 0.1);
+  padding: 5px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: white;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.search-bar input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  width: 120px;
+  font-size: 14px;
+}
+
+.search-bar button {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.form-container {
+  width: 350px;
+  margin: auto;
+  margin-top: 100px;
+  background: rgba(255 255 255 / 0.1);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 30px;
+  text-align: center;
+  color: white;
+  position: relative;
+  z-index: 5;
+  font-weight: 600;
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+button.submit-btn {
+  width: 100%;
+  background-color: #4a90e2;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 700;
+}
+
+button.submit-btn:hover {
+  background-color: #357abd;
+}
+
+.toggle-link {
+  margin-top: 15px;
+  color: #aad4ff;
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+}
+
+.toggle-link:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  margin: 20px 0;
+  font-weight: 400;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.social-login {
+  display: flex;
   justify-content: center;
+  gap: 25px;
 }
 
-.main-container .form-box.login{
-  left: 0;
-  padding: 0 60px 0 40px;
+.social-login img {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 0.2rem black);
+  transition: transform 0.3s ease;
 }
 
-.main-container .form-box.login .animation{
-  transform: translateX(0);
-  opacity: 1;
-  filter: blur(0);
-  transition: .7s ease;
-  transition-delay: calc(.1s * var(--i));
+.social-login img:hover {
+  transform: scale(1.1);
 }
 
-.main-container.active .form-box.login .animation{
-  transform: translateX(-120%);
-  opacity: 0;
-  filter: blur(10px);
-  transition-delay: calc(.1s * var(--i));
-}
-
-.main-container .form-box.register{
-  right: 0;
-  padding: 0 40px 0 60px;
-  pointer-events: none;
+.message {
+  margin-top: 15px;
+  min-height: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffd700;
 }

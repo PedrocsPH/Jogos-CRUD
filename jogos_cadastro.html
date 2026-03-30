@@ -1,43 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="jogos_cadastro.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up / Login</title>
+  <link rel="stylesheet" href="jogos_cadastro.css" />
 </head>
 <body>
+  <div class="background"></div>
 
+  <nav>
+    <a href="#home" tabindex="1">Home</a>
+    <a href="#service" tabindex="2">Service</a>
+    <a href="#contact" tabindex="3">Contact</a>
+    <a href="#about" tabindex="4">About</a>
+  </nav>
 
+  <div class="search-bar" role="search">
+    <input type="text" placeholder="Search" aria-label="Search" tabindex="5" />
+    <button aria-label="Search Button" tabindex="6">&#128269;</button>
+  </div>
 
-<div class="main-container">
-    <span class="bg-animate"></span>
-    <span class="bg-2-animate"></span>
+  <main class="form-container" role="main" aria-live="polite">
+    <h2 id="form-title">Sign Up</h2>
+    <input
+      type="email"
+      id="email"
+      placeholder="Email"
+      aria-label="Email"
+      required
+      autocomplete="username"
+      tabindex="7"
+    />
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+      aria-label="Password"
+      required
+      autocomplete="current-password"
+      tabindex="8"
+    />
+    <button class="submit-btn" id="submit-btn" tabindex="9">Sign Up</button>
 
-    <div class="form-box login">
-        <h2 class="animation" style="--i:0; --j:21;">Login</h2>
+    <span class="toggle-link" id="toggle-link" tabindex="10" role="button" aria-pressed="false">
+      Já é membro? Faça login
+    </span>
 
-        <form action="#">
-            <div class="input-box animation" style="--i:1; --j:22;">
-                <input type="text" required>
-                <label for="text">Username</label>
-                <i class="bx bxs-user"></i>
-            </div>
+    <div class="divider">— ou sign up with —</div>
+    <div class="social-login" aria-label="Login social">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/5/53/Facebook_F_logo_(2019).svg"
+        alt="Login with Facebook"
+        tabindex="11"
+        role="button"
+      />
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Google_Logo.svg"
+        alt="Login with Google"
+        tabindex="12"
+        role="button"
+      />
+    </div>
 
-            <div class="input-box animation" style="--i:2; --j:23;">
-                <input type="password" required>
-                <label for="password">Password</label>
-                <i class="bx bxs-lock-alt"></i>
-            </div>
+    <div class="message" id="message" aria-live="assertive"></div>
+  </main>
 
-            <button type="#" class="btn animation" style="--i:3; --j:24;">Login</button>
-
-            <div class="reglog-text animation" style="--i:4; --j:25;">
-                <p>Don't have an account? <a href="#" class="signup-link">Sign Up</a></p>
-            </div>
-        </form>
-</div>
-
-<script src="jogos_cadastro.js"></script>
+  <script src="jogos_cadastro.js"></script>
 </body>
 </html>
