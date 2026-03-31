@@ -7,3 +7,23 @@ body{
    background: #050542;
 background: linear-gradient(0deg, rgba(5, 5, 66, 1) 0%, rgba(12, 61, 145, 1) 100%);
 }
+
+.caixa1{
+    background-color: rgb(39, 39, 39);
+    height: 65px;
+    width: 1150px;
+    border-radius: 15px 15px 15px;
+    box-shadow: 5px 7px 0px white;
+    margin-left: 45px;
+    margin-top: 50px;
+}
+
+.caixa2{
+    background-color: rgb(39, 39, 39);
+    height: 430px;
+    width: 1150px;
+    border-radius: 15px 15px 15px;
+    box-shadow: 5px 7px 0px white;
+    margin-left: 45px;
+    margin-top: 55px;
+}
