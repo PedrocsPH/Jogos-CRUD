@@ -1,0 +1,9 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    height: 652px;
+   background: #050542;
+background: linear-gradient(0deg, rgba(5, 5, 66, 1) 0%, rgba(12, 61, 145, 1) 100%);
+}

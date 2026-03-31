@@ -8,7 +8,7 @@
   let isLogin = false;
 
   function validateEmail(email) {
-    // Simples regex para email
+   
     return /\S+@\S+\.\S+/.test(email);
   }
 
@@ -52,19 +52,12 @@
     }
 
     if (isLogin) {
-      // Simula login
+      // login do usuário
       showMessage(`Login realizado com sucesso para ${email}!`);
     } else {
-      // Simula cadastro
+      // Cadastro do usuário
       showMessage(`Cadastro realizado com sucesso para ${email}!`);
     }
   });
 
-  // Simulação de cliques em redes sociais só mostra mensagem
-  const socialButtons = document.querySelectorAll('.social-login img');
-  socialButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      showMessage(`Login com ${btn.alt.replace('Login with ', '')} não implementado.`);
-    });
-  });
 })();

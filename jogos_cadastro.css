@@ -8,15 +8,15 @@ body, html {
   margin: 0;
   height: 100%;
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(to top, #0d0d60 0%, #1f3eba 100%);
-  overflow: hidden;
   color: white;
+  overflow: hidden;
+  margin-top: 30px;
 }
 
 .background {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: url('') center center/cover no-repeat;
+  background: url('a21501a831dce1ffa0ab2b578c108f06.jpg') center center/cover no-repeat;
   filter: brightness(0.6);
   z-index: -1;
 }
@@ -43,40 +43,6 @@ nav a {
 
 nav a:hover {
   color: #aad4ff;
-}
-
-.search-bar {
-  position: fixed;
-  top: 15px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  background: rgba(255 255 255 / 0.1);
-  padding: 5px 10px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: white;
-  font-size: 14px;
-  z-index: 10;
-}
-
-.search-bar input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: white;
-  width: 120px;
-  font-size: 14px;
-}
-
-.search-bar button {
-  background: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  margin-left: 5px;
 }
 
 .form-container {
@@ -141,31 +107,6 @@ button.submit-btn:hover {
 
 .toggle-link:hover {
   text-decoration: underline;
-}
-
-.divider {
-  margin: 20px 0;
-  font-weight: 400;
-  font-size: 14px;
-  color: #ddd;
-}
-
-.social-login {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-}
-
-.social-login img {
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  filter: drop-shadow(0 0 0.2rem black);
-  transition: transform 0.3s ease;
-}
-
-.social-login img:hover {
-  transform: scale(1.1);
 }
 
 .message {
