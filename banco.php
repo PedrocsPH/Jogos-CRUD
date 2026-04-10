@@ -1,193 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interface do Banco</title>
-</head>
-<body>
-    
-<style>
+<?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "jogos";
 
+$conn = new mysqli($host, $user, $pass, $db);
+
+if ($conn->connect_error) {
+    die("Erro de conexão: " . $conn->connect_error);
+}
+
+// EXCLUIR
+if(isset($_GET['excluir'])){
+    $id = $_GET['excluir'];
+    $conn->query("DELETE FROM jogos WHERE id=$id");
+}
+
+// EDITAR (exemplo simples: apenas redireciona ou pode abrir formulário depois)
+if(isset($_GET['editar'])){
+    $id = $_GET['editar'];
+    echo "<script>alert('Função editar para ID: $id');</script>";
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Interface do Banco</title>
+
+<style>
 * {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial;
 }
 
 body{
-    height: 607.5px;
-   background: #050542;
-background: linear-gradient(0deg, rgba(5, 5, 66, 1) 0%, rgba(12, 61, 145, 1) 100%);
+   background: linear-gradient(0deg, rgba(5,5,66,1) 0%, rgba(12,61,145,1) 100%);
+   color: white;
 }
 
 .caixa1{
-    background-color: rgb(39, 39, 39);
+    background-color: rgb(39,39,39);
     height: 65px;
-    width: 1150px;
-    border-radius: 15px 15px 15px;
-    box-shadow: 5px 10px 18px rgb(0, 0, 0);
-    margin-left: 45px;
-    margin-top: 50px;
-    transition: 1s;
+    width: 90%;
+    border-radius: 15px;
+    margin: 20px auto;
     border: 2px solid white;
-}
-
-.caixa1:hover{
-    transform: scale(1.01);
-    transition: 1s ease-in-out;
 }
 
 .caixa2{
-    background-color: rgb(39, 39, 39);
-    height: 430px;
-    width: 1150px;
-    box-shadow: 5px 10px 18px rgb(0, 0, 0);
-    margin-left: 45px;
-    margin-top: 55px;
-    transition: 1s;
+    background-color: rgb(39,39,39);
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
     border: 2px solid white;
-    border-radius: 12px 12px 12px;
+    border-radius: 12px;
 }
 
-.caixa2:hover{
-    transform: scale(1.01);
-    transition: 1s ease-in-out;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.home{
-  font-size: 25px;
-  color: rgb(255, 255, 255);
-  height: 35px;
-  width: 75px;
-  margin-left: 20px;
-  overflow: hidden;
-  position: absolute;
-  z-index: 1;
+td, th {
+    border: 1px solid #555;
+    padding: 10px;
+    text-align: center;
 }
 
-.barrinha{
-  width: 3px;
-  height: 35px;
-  background-color: white;
-  position: absolute;
-  z-index: 1;
-  margin-left: 100px;
-  margin-top: 12px;
+/* BOTÕES */
+button {
+  border: 1px solid #fff;
+  border-radius: 8px;
+  background-color: #060034;
+  box-shadow: 2px 2px 1px #fff;
+  font-size: 16px;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin: 2px;
 }
 
-.jogos{
-  font-size: 23px;
-  color: rgb(255, 255, 255);
-  height: 35px;
-  width: 75px;
-  margin-left: 115px;
-  overflow: hidden;
-  margin-top: 18px;
-  position: absolute;
-  z-index: 1;
-  font-weight: 200;
+button:hover {
+  background-color: #0c3d91;
 }
-
-.link{
-  font-size: 23px;
-  color: rgb(255, 255, 255);
-  height: 35px;
-  width: 75px;
-  margin-left: 190px;
-  overflow: hidden;
-  position: absolute;
-  z-index: 1;
-  margin-top: 18.5px;
-  font-weight: 200;
-}
-
-td {
-  height: 80px;
-}
-
-   table {
-      border-collapse:collapse;
-      width: 96%;
-      margin: 20px auto;
-    }
-
-    tr {
-      border: 2px solid #565656;
-      padding: 20px;
-      text-align: center;
-      height: 30px;
-    } 
-
-    td {
-        border: 2px solid #565656;
-      padding: 20px;
-      text-align: center;
-      height: 20px;
-    }
-
-    th {
-      background-color: #ddd;
-    }
-
-    .editar{
-        background-color: #fbc12eff;
-        border-radius: 8px 8px 8px;
-        width: 75px;
-        height: 33px;
-        font-size: 15px;
-        font-weight: 700;
-        box-shadow: 2px 3px 0px white;
-    }
-
-  .excluir{
-        background-color: #fb352eff;
-        border-radius: 8px 8px 8px;
-        width: 75px;
-        height: 33px;
-        font-size: 15px;
-        font-weight: 700;
-        box-shadow: 2px 3px 0px white;
-        margin-left: 20px;
-    }
-
 </style>
 
-<div class="background">
-     
+<script>
+function confirmarExclusao(id){
+    if(confirm("Tem certeza que deseja excluir este jogo?")){
+        window.location.href = "?excluir=" + id;
+    }
+}
+
+function editarJogo(id){
+    window.location.href = "?editar=" + id;
+}
+</script>
+
+</head>
+<body>
+
 <div class="caixa1">
-<h1 class="home">Home</h1>
-
-<div class="barrinha"></div>
-
-<h2 class="jogos">Jogos</h2>
-
-<h3 class="link">Link</h3>
+<h2 style="margin-left:20px;">Sistema de Jogos</h2>
 </div>
 
 <div class="caixa2">
 
-     <table>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Gênero</th>
-      <th>Funcionalidades</th>
-    </tr>
-    <tr>
-      <td>Linha 1</td>
-      <td></td>
-      <td></td>
-      <td> <button class="editar">Editar</button> <button class="excluir">Excluir</button> </td>
-    </tr>
-   
-  </table>
+<h3>Lista de Jogos</h3>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Nome</th>
+<th>Gênero</th>
+<th>Plataforma</th>
+<th>Ações</th>
+</tr>
+
+<?php
+$result = $conn->query("SELECT * FROM jogos");
+
+while($row = $result->fetch_assoc()){
+    echo "<tr>
+<td>{$row['id']}</td>
+<td>{$row['nome']}</td>
+<td>{$row['genero']}</td>
+<td>{$row['plataforma']}</td>
+<td>
+<button onclick='editarJogo({$row['id']})'>Editar</button>
+<button onclick='confirmarExclusao({$row['id']})'>Excluir</button>
+</td>
+</tr>";
+}
+?>
+
+</table>
 
 </div>
-
-</div>
-
-<js>
-
-</js>
 
 </body>
 </html>
