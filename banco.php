@@ -10,16 +10,52 @@ if ($conn->connect_error) {
     die("Erro de conexão: " . $conn->connect_error);
 }
 
-// EXCLUIR
+/* =========================
+   EXCLUIR
+========================= */
 if(isset($_GET['excluir'])){
     $id = $_GET['excluir'];
-    $conn->query("DELETE FROM jogos WHERE id=$id");
+    $conn->query("DELETE FROM jogos WHERE JogosID=$id");
+    header("Location: banco.php");
+    exit();
 }
 
-// EDITAR (exemplo simples: apenas redireciona ou pode abrir formulário depois)
+/* =========================
+   EDITAR (UPDATE DIRETO)
+========================= */
+if(isset($_POST['atualizar'])){
+    $id = $_POST['id'];
+    $empresa = $_POST['empresa'];
+    $desenvolvedores = $_POST['desenvolvedores'];
+    $precos = $_POST['precos'];
+    $distribuicao = $_POST['distribuicao'];
+    $lancamento = $_POST['lancamento'];
+    $genero = $_POST['genero'];
+
+    $conn->query("UPDATE jogos SET 
+        Empresa='$empresa',
+        Desenvolvedores='$desenvolvedores',
+        precos='$precos',
+        distribuicao='$distribuicao',
+        lancamento='$lancamento',
+        Genero_GeneroID='$genero'
+        WHERE JogosID=$id");
+
+    header("Location: banco.php");
+    exit();
+}
+
+/* =========================
+   PEGAR DADOS PARA EDITAR
+========================= */
+$editando = false;
+$dados = null;
+
 if(isset($_GET['editar'])){
     $id = $_GET['editar'];
-    echo "<script>alert('Função editar para ID: $id');</script>";
+    $result = $conn->query("SELECT * FROM jogos WHERE JogosID=$id");
+    $dados = $result->fetch_assoc();
+    $editando = true;
 }
 ?>
 
@@ -57,6 +93,12 @@ body{
     border-radius: 12px;
 }
 
+input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -68,17 +110,13 @@ td, th {
     text-align: center;
 }
 
-/* BOTÕES */
 button {
   border: 1px solid #fff;
   border-radius: 8px;
   background-color: #060034;
-  box-shadow: 2px 2px 1px #fff;
-  font-size: 16px;
   color: white;
   padding: 6px 12px;
   cursor: pointer;
-  margin: 2px;
 }
 
 button:hover {
@@ -94,7 +132,7 @@ function confirmarExclusao(id){
 }
 
 function editarJogo(id){
-    window.location.href = "?editar=" + id;
+    window.location.href = "banco.php?editar=" + id;
 }
 </script>
 
@@ -107,14 +145,44 @@ function editarJogo(id){
 
 <div class="caixa2">
 
-<h3>Lista de Jogos</h3>
+<h3><?php echo $editando ? "Editar Jogo" : "Lista de Jogos"; ?></h3>
 
+<!-- =========================
+     FORMULÁRIO DE EDIÇÃO
+========================= -->
+<?php if($editando): ?>
+
+<form method="POST">
+
+<input type="hidden" name="id" value="<?= $dados['JogosID'] ?>">
+
+<input type="text" name="empresa" value="<?= $dados['Empresa'] ?>" required>
+<input type="text" name="desenvolvedores" value="<?= $dados['Desenvolvedores'] ?>" required>
+<input type="text" name="precos" value="<?= $dados['precos'] ?>" required>
+<input type="text" name="distribuicao" value="<?= $dados['distribuicao'] ?>" required>
+<input type="text" name="lancamento" value="<?= $dados['lancamento'] ?>" required>
+<input type="number" name="genero" value="<?= $dados['Genero_GeneroID'] ?>" required>
+
+<button type="submit" name="atualizar">Atualizar</button>
+
+</form>
+
+<hr>
+
+<?php endif; ?>
+
+<!-- =========================
+     TABELA DE DADOS
+========================= -->
 <table>
 <tr>
 <th>ID</th>
-<th>Nome</th>
+<th>Empresa</th>
+<th>Desenvolvedores</th>
+<th>Preço</th>
+<th>Distribuição</th>
+<th>Lançamento</th>
 <th>Gênero</th>
-<th>Plataforma</th>
 <th>Ações</th>
 </tr>
 
@@ -123,13 +191,16 @@ $result = $conn->query("SELECT * FROM jogos");
 
 while($row = $result->fetch_assoc()){
     echo "<tr>
-<td>{$row['id']}</td>
-<td>{$row['nome']}</td>
-<td>{$row['genero']}</td>
-<td>{$row['plataforma']}</td>
+<td>{$row['JogosID']}</td>
+<td>{$row['Empresa']}</td>
+<td>{$row['Desenvolvedores']}</td>
+<td>{$row['precos']}</td>
+<td>{$row['distribuicao']}</td>
+<td>{$row['lancamento']}</td>
+<td>{$row['Genero_GeneroID']}</td>
 <td>
-<button onclick='editarJogo({$row['id']})'>Editar</button>
-<button onclick='confirmarExclusao({$row['id']})'>Excluir</button>
+<button onclick='editarJogo({$row['JogosID']})'>Editar</button>
+<button onclick='confirmarExclusao({$row['JogosID']})'>Excluir</button>
 </td>
 </tr>";
 }

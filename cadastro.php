@@ -1,4 +1,6 @@
 <?php
+ob_start();
+
 $host = "localhost";
 $user = "root";
 $pass = "";
@@ -14,24 +16,27 @@ $msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $nome = $_POST["jogos"] ?? "";
+    $empresa = $_POST["empresa"] ?? "";
+    $desenvolvedores = $_POST["desenvolvedores"] ?? "";
+    $precos = $_POST["precos"] ?? "";
+    $distribuicao = $_POST["distribuicao"] ?? "";
+    $lancamento = $_POST["lancamento"] ?? "";
     $genero = $_POST["genero"] ?? "";
-    $plataforma = $_POST["plataforma"] ?? "";
 
-    if ($jogos && $genero && $plataforma) {
+    if ($empresa && $desenvolvedores && $precos && $distribuicao && $lancamento && $genero) {
 
-        // INSERIR NO BANCO
-        $sql = "INSERT INTO jogos (nome, genero, plataforma) 
-                VALUES ('$jogos', '$genero', '$plataforma')";
+        $sql = "INSERT INTO jogos 
+        (Empresa, Desenvolvedores, precos, distribuicao, lancamento, Genero_GeneroID) 
+        VALUES 
+        ('$empresa', '$desenvolvedores', '$precos', '$distribuicao', '$lancamento', '$genero')";
 
         if ($conn->query($sql) === TRUE) {
 
-            // REDIRECIONA PARA A INTERFACE
             header("Location: banco.php");
             exit();
 
         } else {
-            $msg = "Erro ao cadastrar.";
+            $msg = "Erro ao cadastrar: " . $conn->error;
         }
 
     } else {
@@ -144,9 +149,12 @@ button:hover {
 
 <form method="POST">
 
-  <input type="text" name="nome" placeholder="Nome do jogo" required>
-  <input type="text" name="genero" placeholder="Gênero" required>
-  <input type="text" name="plataforma" placeholder="Plataforma" required>
+  <input type="text" name="empresa" placeholder="Empresa" required>
+  <input type="text" name="desenvolvedores" placeholder="Desenvolvedores" required>
+  <input type="text" name="precos" placeholder="Preço" required>
+  <input type="text" name="distribuicao" placeholder="Distribuição" required>
+  <input type="text" name="lancamento" placeholder="Lançamento" required>
+  <input type="number" name="genero" placeholder="ID do Gênero" required>
 
   <button type="submit">Cadastrar</button>
 
@@ -160,3 +168,7 @@ button:hover {
 
 </body>
 </html>
+
+<?php
+ob_end_flush();
+?>
