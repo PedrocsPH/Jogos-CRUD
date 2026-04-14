@@ -13,9 +13,22 @@ if ($conn->connect_error) {
 }
 
 $msg = "";
+$editando = false;
+$dados = null;
 
+/* Carrega as informações para edição */
+
+if(isset($_GET['editar'])){
+    $id = $_GET['editar'];
+    $result = $conn->query("SELECT * FROM jogos WHERE JogosID=$id");
+    $dados = $result->fetch_assoc();
+    $editando = true;
+}
+
+/* Salva a informação (INSERT OU UPDATE) */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    $id = $_POST["id"] ?? "";
     $empresa = $_POST["empresa"] ?? "";
     $desenvolvedores = $_POST["desenvolvedores"] ?? "";
     $precos = $_POST["precos"] ?? "";
@@ -25,18 +38,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($empresa && $desenvolvedores && $precos && $distribuicao && $lancamento && $genero) {
 
-        $sql = "INSERT INTO jogos 
-        (Empresa, Desenvolvedores, precos, distribuicao, lancamento, Genero_GeneroID) 
-        VALUES 
-        ('$empresa', '$desenvolvedores', '$precos', '$distribuicao', '$lancamento', '$genero')";
+        if($id){ 
+            $sql = "UPDATE jogos SET
+                Empresa='$empresa',
+                Desenvolvedores='$desenvolvedores',
+                precos='$precos',
+                distribuicao='$distribuicao',
+                lancamento='$lancamento',
+                Genero_GeneroID='$genero'
+                WHERE JogosID=$id";
+        } else {
+            $sql = "INSERT INTO jogos 
+            (Empresa, Desenvolvedores, precos, distribuicao, lancamento, Genero_GeneroID) 
+            VALUES 
+            ('$empresa', '$desenvolvedores', '$precos', '$distribuicao', '$lancamento', '$genero')";
+        }
 
         if ($conn->query($sql) === TRUE) {
-
             header("Location: banco.php");
             exit();
-
         } else {
-            $msg = "Erro ao cadastrar: " . $conn->error;
+            $msg = "Erro: " . $conn->error;
         }
 
     } else {
@@ -145,23 +167,25 @@ button:hover {
 
 <main class="form-container">
 
-<h2>Cadastro de Jogo</h2>
+<h2><?= $editando ? "Editar Jogo" : "Cadastro de Jogo" ?></h2>
 
 <form method="POST">
 
-  <input type="text" name="empresa" placeholder="Empresa" required>
-  <input type="text" name="desenvolvedores" placeholder="Desenvolvedores" required>
-  <input type="text" name="precos" placeholder="Preço" required>
-  <input type="text" name="distribuicao" placeholder="Distribuição" required>
-  <input type="text" name="lancamento" placeholder="Lançamento" required>
-  <input type="number" name="genero" placeholder="ID do Gênero" required>
+  <input type="hidden" name="id" value="<?= $dados['JogosID'] ?? '' ?>">
 
-  <button type="submit">Cadastrar</button>
+  <input type="text" name="empresa" placeholder="Empresa" value="<?= $dados['Empresa'] ?? '' ?>" required>
+  <input type="text" name="desenvolvedores" placeholder="Desenvolvedores" value="<?= $dados['Desenvolvedores'] ?? '' ?>" required>
+  <input type="text" name="precos" placeholder="Preço" value="<?= $dados['precos'] ?? '' ?>" required>
+  <input type="text" name="distribuicao" placeholder="Distribuição" value="<?= $dados['distribuicao'] ?? '' ?>" required>
+  <input type="text" name="lancamento" placeholder="Lançamento" value="<?= $dados['lancamento'] ?? '' ?>" required>
+  <input type="number" name="genero" placeholder="ID do Gênero" value="<?= $dados['Genero_GeneroID'] ?? '' ?>" required>
+
+  <button type="submit"><?= $editando ? "Atualizar" : "Cadastrar" ?></button>
 
 </form>
 
 <div class="message">
-  <?php echo $msg; ?>
+  <?= $msg; ?>
 </div>
 
 </main>
@@ -169,6 +193,4 @@ button:hover {
 </body>
 </html>
 
-<?php
-ob_end_flush();
-?>
+<?php ob_end_flush(); ?>
